@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjeta de Producto</title>
+
+    <style>
+        /* ESTILO GENERAL DE LA PÁGINA */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e9eef5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* TARJETA DEL PRODUCTO */
+        .tarjeta {
+            width: 280px;
+            background-color: #FDFBD4;
+            border-radius: 6px;
+            overflow: hidden;
+
+            /* Sombra inicial */
+            box-shadow: 0 6px 15px rgba(52, 152, 245, 0.20);
+
+            /* REQUISITO 1:
+               transición de transform y box-shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* REQUISITO 2:
+           la tarjeta se eleva 6px y aumenta la sombra */
+        .tarjeta:hover {
+            transform: translateY(-6px);
+
+            /* Sombra más grande y visible */
+            box-shadow: 0 18px 35px rgba(52, 152, 245, 0.55);
+        }
+
+        /* IMAGEN DEL PRODUCTO */
+        .imagen-producto {
+            width: 100%;
+            height: 180px;
+            display: block;
+
+            /* Muestra toda la imagen sin recortarla */
+            object-fit: contain;
+
+            background-color: white;
+        }
+
+        /* CONTENIDO DE LA TARJETA */
+        .contenido {
+            padding: 18px;
+        }
+
+        .contenido h2 {
+            font-size: 18px;
+            margin: 0 0 8px;
+        }
+
+        .descripcion {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.4;
+            margin: 0 0 12px;
+        }
+
+        .precio {
+            font-size: 18px;
+            font-weight: bold;
+            color: #000000;
+            margin: 0 0 16px;
+        }
+
+        /* BOTÓN */
+        #botonAgregar {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 3px;
+            background-color: #3498f5;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+
+            /* Transición suave del botón */
+            transition: transform 0.15s ease;
+        }
+
+        /* REQUISITO 3:
+           estados hover, active y focus-visible */
+
+        /* HOVER */
+        #botonAgregar:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+
+        /* ACTIVE */
+        #botonAgregar:active:not(:disabled) {
+            transform: scale(0.97);
+        }
+
+        /* FOCUS-VISIBLE AL USAR TAB */
+        #botonAgregar:focus-visible {
+            outline: 3px solid #f5b942;
+            outline-offset: 3px;
+        }
+
+        /* BLOQUEO DURANTE LA CARGA */
+        #botonAgregar:disabled {
+            cursor: wait;
+        }
+
+        /* REQUISITO 4:
+           SPINNER OCULTO */
+        .spinner {
+            display: none;
+            width: 14px;
+            height: 14px;
+            margin-right: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-top-color: white;
+            border-radius: 50%;
+            vertical-align: middle;
+
+            animation: girar 0.8s linear infinite;
+        }
+
+        /* EL SPINNER APARECE CON LA CLASE CARGANDO */
+        #botonAgregar.cargando .spinner {
+            display: inline-block;
+        }
+
+        /* ANIMACIÓN DEL SPINNER */
+        @keyframes girar {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* CHECK SVG */
+        .check {
+            display: none;
+            width: 18px;
+            height: 18px;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        /* EL CHECK APARECE AL FINALIZAR */
+        #botonAgregar.anadido .check {
+            display: inline-block;
+        }
+
+        /* REQUISITO 5:
+           ACCESIBILIDAD - MOVIMIENTO REDUCIDO */
+        @media (prefers-reduced-motion: reduce) {
+
+            .tarjeta,
+            #botonAgregar {
+                transition: none;
+            }
+
+            .tarjeta:hover,
+            #botonAgregar:hover,
+            #botonAgregar:active {
+                transform: none;
+            }
+
+            .spinner {
+                animation: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TARJETA DEL PRODUCTO -->
+    <div class="tarjeta">
+
+        <!-- FOTO DEL PRODUCTO -->
+        <img
+            src="https://http2.mlstatic.com/D_NQ_NP_663267-MLA92053268109_092025-O.webp"
+            alt="Mouse Gamer USB"
+            class="imagen-producto">
+
+        <!-- INFORMACIÓN DEL PRODUCTO -->
+        <div class="contenido">
+
+            <h2>Mouse Gamer USB</h2>
+
+            <p class="descripcion">
+                Mouse gamer ergonómico con conexión USB y diseño de alta precisión.
+            </p>
+
+            <p class="precio">
+                S/ 59.90
+            </p>
+
+            <!-- BOTÓN INTERACTIVO -->
+            <button
+                id="botonAgregar"
+                type="button">
+
+                <!-- SPINNER -->
+                <span
+                    class="spinner"
+                    aria-hidden="true">
+                </span>
+
+                <!-- CHECK SVG -->
+                <svg
+                    class="check"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true">
+
+                    <polyline points="20 6 9 17 4 12"></polyline>
+
+                </svg>
+
+                <span
+                    id="textoBoton"
+                    aria-live="polite">
+                    Añadir
+                </span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <script>
+        /*
+            REQUISITO 6
+
+            ESTADO INICIAL:
+            Añadir
+
+            AL HACER CLIC:
+            Añadiendo durante 1.5 segundos
+
+            ESTADO FINAL:
+            Añadido + check SVG
+        */
+
+        const boton = document.getElementById("botonAgregar");
+        const textoBoton = document.getElementById("textoBoton");
+
+        boton.addEventListener("click", function () {
+
+            /* EVITA EL DOBLE CLIC DURANTE LA CARGA */
+            boton.disabled = true;
+
+            /* ESTADO CARGANDO */
+            boton.classList.remove("anadido");
+            boton.classList.add("cargando");
+
+            textoBoton.textContent = "Añadiendo";
+
+            /* ESPERA 1.5 SEGUNDOS */
+            setTimeout(function () {
+
+                /* QUITA EL ESTADO CARGANDO */
+                boton.classList.remove("cargando");
+
+                /* ACTIVA EL ESTADO AÑADIDO */
+                boton.classList.add("anadido");
+
+                /* CAMBIA EL TEXTO */
+                textoBoton.textContent = "Añadido";
+
+                /* VUELVE A HABILITAR EL BOTÓN */
+                boton.disabled = false;
+
+            }, 1500);
+
+        });
+    </script>
+
+</body>
+
+</html>
